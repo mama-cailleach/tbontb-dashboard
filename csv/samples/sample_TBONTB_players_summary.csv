@@ -1,0 +1,6 @@
+player_id,player_name,roles,matches,bat_innings,runs,balls_faced,4s,6s,50s,30s,high_score,strike_rate,bat_avg,dismissals,ducks,not_outs,bowl_innings,overs_bowled,runs_conceded,wickets,maidens,economy,bowl_avg,bbi,3wickets,matches_played
+TBONTB_0004,TGR Thorn,,9,9,227,173,0,0,1,2,51,131.21,32.43,7,0,2,9,34.0,336,4,0,9.88,84.00,1/39,0,9
+TBONTB_0006,WE Leuty,,22,20,105,192,1,0,0,0,29,54.69,6.18,17,6,3,21,37.0,433,8,0,11.70,54.13,1/25,0,22
+TBONTB_0002,RM Sheridan,,81,80,1911,1737,9,0,10,17,67*,110.02,36.06,53,1,27,79,241.0,2218,53,0,9.20,41.85,3/24,4,81
+TBONTB_0003,Higgins PA,,131,122,1736,1461,80,1,9,6,57*,118.82,18.08,96,17,26,114,202.4,2393,32,0,11.80,74.78,2/27,0,131
+TBONTB_0005,DM Sheridan,,73,65,1268,947,19,2,9,8,69*,133.90,30.19,42,4,23,72,231.3,2153,55,1,9.30,39.15,3/53,2,73

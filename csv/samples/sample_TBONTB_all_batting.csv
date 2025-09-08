@@ -1,0 +1,6 @@
+match_id,team_id,team_name,player_id,player_name,batting_order,dismissal_mode,runs,balls,4s,6s,strike_rate,did_not_bat,Season
+M001,TBONTB,Two Bats or Not To Bat,TBONTB_0004,TGR Thorn,4,Bowled,21,14,2,0,150,FALSE,2013
+M002,TBONTB,Two Bats or Not To Bat,TBONTB_0006,WE Leuty,6,Not Out,35,28,3,1,125,FALSE,2014
+M003,TBONTB,Two Bats or Not To Bat,TBONTB_0002,RM Sheridan,1,Caught,0,1,0,0,0,FALSE,2013
+M004,TBONTB,Two Bats or Not To Bat,TBONTB_0003,Higgins PA,3,LBW,12,10,1,0,120,FALSE,2013
+M005,TBONTB,Two Bats or Not To Bat,TBONTB_0005,DM Sheridan,5,,0,0,0,0,0,TRUE,2013

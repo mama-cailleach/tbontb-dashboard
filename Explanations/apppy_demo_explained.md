@@ -1,6 +1,6 @@
 # What does `app.py` do?
 
-This file is a simple Streamlit app for viewing TBONTB cricket batting records. Here’s what each part does, explained for beginners:
+This file is a simple Streamlit app for viewing TBONTB cricket batting records.
 
 ## 1. Importing Libraries
 - `import streamlit as st` — Lets us build web apps easily in Python.
