@@ -12,12 +12,12 @@ st.set_page_config(
 @st.cache_data
 def load_matches():
     # To use full data, change to: "csv/TBONTB_all_matches.csv"
-    return pd.read_csv("csv/samples/sample_TBONTB_all_matches.csv")
+    return pd.read_csv("csv/TBONTB_all_matches.csv")
 
 @st.cache_data
 def load_players_summary():
     # To use full data, change to: "csv/TBONTB_players_summary.csv"
-    return pd.read_csv("csv/samples/sample_TBONTB_players_summary.csv")
+    return pd.read_csv("csv/TBONTB_players_summary.csv")
 
 # --- Sidebar navigation ---
 st.sidebar.title("Menu")
@@ -32,8 +32,10 @@ players = load_players_summary()
 if page == "Home":
     st.title("🏏 TBONTB Dashboard Home")
     st.markdown("*Welcome to the TBONTB Dashboard! Last updated: 09/09/2025*")
+    st.markdown("*<--- Use the sidebar menu to navigate*")
 
     # --- Team summary stats ---
+    st.subheader("Team Summary Stats")
     total_matches = len(matches)
     wins = (matches["Result"].str.lower() == "win").sum()
     losses = (matches["Result"].str.lower() == "loss").sum()
@@ -61,7 +63,6 @@ if page == "Home":
 
     # --- All-Time Leaderboards ---
     st.subheader("All-Time Leaderboards")
-    st.markdown("*Select a Leaderboard to view:*")
     leaderboard_type = st.selectbox("Leaderboard by:", ["Runs", "Balls Faced", "Wickets", "Overs Bowled", "Bowling Average", "Ducks", "Dismissals", "Economy", "Batting Average"])
     if leaderboard_type == "Runs":
         top = players.sort_values("runs", ascending=False).head(5)
@@ -160,7 +161,7 @@ elif page == "Players":
     @st.cache_data
     def load_players_summary():
         # To use full data, change to: "csv/TBONTB_players_summary.csv"
-        return pd.read_csv("csv/samples/sample_TBONTB_players_summary.csv")
+        return pd.read_csv("csv/TBONTB_players_summary.csv")
     players_df = load_players_summary()
 
     # --- Filters ---
@@ -194,7 +195,7 @@ elif page == "Venues":
     @st.cache_data
     def load_venues():
         # To use full data, change to: "csv/TBONTB_venues.csv"
-        return pd.read_csv("csv/samples/sample_TBONTB_venues.csv")
+        return pd.read_csv("csv/TBONTB_venues.csv")
     venues_df = load_venues()
 
     # Pie chart: matches played per venue
