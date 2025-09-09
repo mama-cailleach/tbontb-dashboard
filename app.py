@@ -53,7 +53,7 @@ if page == "Home":
     st.subheader("Recent Results")
 
     # Create a "Score" column for display
-    recent = matches.reset_index(drop=True).head(5)
+    recent = matches.reset_index(drop=True).tail(5)
     recent = recent.sort_index(ascending=True)
     recent["Score"] = ( "TBONTB " + 
     recent["Team Runs"].astype(str) + "/" +
