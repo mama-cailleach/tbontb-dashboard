@@ -37,6 +37,8 @@ if page == "Home":
     # --- Team summary stats ---
     st.subheader("Team Summary Stats")
     total_matches = len(matches)
+    no_results = (matches["Result"].str.lower() == "no result").sum()
+    actual_total = total_matches - no_results
     wins = (matches["Result"].str.lower() == "win").sum()
     losses = (matches["Result"].str.lower() == "loss").sum()
     ties = (matches["Result"].str.lower() == "tie").sum()
@@ -52,7 +54,7 @@ if page == "Home":
 
     # Create a "Score" column for display
     recent = matches.reset_index(drop=True).head(5)
-    recent = recent.sort_index(ascending=False)
+    recent = recent.sort_index(ascending=True)
     recent["Score"] = ( "TBONTB " + 
     recent["Team Runs"].astype(str) + "/" +
     recent["Team Wickets Fallen"].astype(str) + " x " +

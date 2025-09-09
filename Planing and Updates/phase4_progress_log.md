@@ -30,3 +30,19 @@
 - Continue MVP development: connect to full datasets, add match/player/venue detail pages, improve visualizations, and collect feedback
 
 _This log tracks progress against the consolidated plan in `phase4_consolidated_plan.md`._
+
+
+### Deployment & Iteration Updates (2025-09-09)
+
+- ✅ Made several improvements and additions to `app.py` display and features (leaderboards, filtering, feedback form, navigation tweaks, and more)
+- ✅ Deployed the first working iteration of the dashboard to Streamlit Community Cloud using the GitHub repo
+- ✅ Successfully tested the app online with sample data
+- ✅ Updated the deployment to use larger/full datasets for further testing and feedback
+- ✅ Fixed missing dependencies (e.g., plotly) in `requirements.txt` for cloud deployment
+
+---
+
+**Next Steps:**
+- Continue refining UI/UX and add detail pages for matches, players, and venues
+- Gather user feedback from online deployment and iterate on features
+- Prepare for full data integration and documentation updates
