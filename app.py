@@ -44,7 +44,7 @@ if page == "Home":
     ties = (matches["Result"].str.lower() == "tie").sum()
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total Matches", total_matches)
+    col1.metric("Total Matches", actual_total)
     col2.metric("Wins", wins)
     col3.metric("Losses", losses)
     col4.metric("Ties", ties)
