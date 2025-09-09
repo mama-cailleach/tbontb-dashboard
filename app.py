@@ -54,7 +54,7 @@ if page == "Home":
 
     # Create a "Score" column for display
     recent = matches.reset_index(drop=True).tail(5)
-    recent = recent.sort_index(ascending=True)
+    recent = recent.sort_index(ascending=False)
     recent["Score"] = ( "TBONTB " + 
     recent["Team Runs"].astype(str) + "/" +
     recent["Team Wickets Fallen"].astype(str) + " x " +
