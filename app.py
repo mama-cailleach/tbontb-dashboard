@@ -4,7 +4,8 @@ import pandas as pd
 st.set_page_config(
     page_title="TBONTB Dashboard",
     page_icon="🏏",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # --- Data loading functions (using sample data for now) ---
@@ -30,7 +31,7 @@ players = load_players_summary()
 
 if page == "Home":
     st.title("🏏 TBONTB Dashboard Home")
-    st.markdown("*Team summary and quick stats*")
+    st.markdown("*Welcome to the TBONTB Dashboard! Last updated: 09/09/2025*")
 
     # --- Team summary stats ---
     total_matches = len(matches)
@@ -44,35 +45,67 @@ if page == "Home":
     col3.metric("Losses", losses)
     col4.metric("Ties", ties)
 
-    # --- Top performers ---
-    st.subheader("Top Performers")
-    top_run = players.sort_values("runs", ascending=False).iloc[0]
-    top_wicket = players.sort_values("wickets", ascending=False).iloc[0]
-    best_avg = players[players["bat_avg"] > 0].sort_values("bat_avg", ascending=False).iloc[0]
-
-    st.write(f"**Top Run-Scorer:** {top_run['player_name']} ({top_run['runs']} runs)")
-    st.write(f"**Top Wicket-Taker:** {top_wicket['player_name']} ({top_wicket['wickets']} wickets)")
-    st.write(f"**Best Batting Average:** {best_avg['player_name']} ({best_avg['bat_avg']:.2f})")
-
     # --- Recent results ---
     st.subheader("Recent Results")
 
     # Create a "Score" column for display
-    recent = matches.sort_values("Date", ascending=False).head(5).copy()
+    recent = matches.reset_index(drop=True).head(5)
+    recent = recent.sort_index(ascending=False)
     recent["Score"] = ( "TBONTB " + 
     recent["Team Runs"].astype(str) + "/" +
     recent["Team Wickets Fallen"].astype(str) + " x " +
     recent["Opposition Runs"].astype(str) + "/" +
     recent["Opposition Wickets Fallen"].astype(str)
     )
-    st.dataframe(recent[["Date", "Score", "Opposition Name", "Result", "Result Info"]], width='stretch')
+    st.dataframe(recent[["Date", "Score", "Opposition Name", "Result", "Result Info"]], width='stretch', hide_index=True, use_container_width=True)
 
-    # --- Quick links ---
-    st.subheader("Quick Links")
-    st.markdown("[Go to Matches](#)")
-    st.markdown("[Go to Players](#)")
-    st.markdown("[Go to Venues](#)")
-    st.markdown("[About](#)")
+    # --- All-Time Leaderboards ---
+    st.subheader("All-Time Leaderboards")
+    st.markdown("*Select a Leaderboard to view:*")
+    leaderboard_type = st.selectbox("Leaderboard by:", ["Runs", "Balls Faced", "Wickets", "Overs Bowled", "Bowling Average", "Ducks", "Dismissals", "Economy", "Batting Average"])
+    if leaderboard_type == "Runs":
+        top = players.sort_values("runs", ascending=False).head(5)
+        chart_col = "runs"
+        chart_title = "Top 5 by Runs"
+    elif leaderboard_type == "Balls Faced":
+        top = players.sort_values("balls_faced", ascending=False).head(5)
+        chart_col = "balls_faced"
+        chart_title = "Top 5 by Balls Faced"
+    elif leaderboard_type == "Wickets":
+        top = players.sort_values("wickets", ascending=False).head(5)
+        chart_col = "wickets"
+        chart_title = "Top 5 by Wickets"
+    elif leaderboard_type == "Overs Bowled":
+        top = players.sort_values("overs_bowled", ascending=False).head(5)
+        chart_col = "overs_bowled"
+        chart_title = "Top 5 by Overs Bowled"
+    elif leaderboard_type == "Bowling Average":
+        top = players.sort_values("bowl_avg", ascending=True).head(5)
+        chart_col = "bowl_avg"
+        chart_title = "Top 5 by Bowling Average"
+    elif leaderboard_type == "Ducks":
+        top = players.sort_values("ducks", ascending=False).head(5)
+        chart_col = "ducks"
+        chart_title = "Top 5 by Ducks"
+    elif leaderboard_type == "Dismissals":
+        top = players.sort_values("dismissals", ascending=False).head(5)
+        chart_col = "dismissals"
+        chart_title = "Top 5 by Dismissals"
+    elif leaderboard_type == "Economy":
+        top = players.sort_values("economy", ascending=True).head(5)
+        chart_col = "economy"
+        chart_title = "Top 5 by Economy"
+    
+    else:
+        top = players[players["bat_avg"] > 0].sort_values("bat_avg", ascending=False).head(5)
+        chart_col = "bat_avg"
+        chart_title = "Top 5 by Batting Average"
+
+    import plotly.express as px
+    fig = px.bar(top, x="player_name", y=chart_col, title=chart_title, text=chart_col)
+    st.plotly_chart(fig, width='stretch')
+    #st.dataframe(top[["player_name", "matches", "runs", "wickets", "bat_avg"]], width='stretch')
+
 
 
 elif page == "Matches":
@@ -121,7 +154,7 @@ elif page == "Matches":
 
 elif page == "Players":
     st.title("Players")
-    st.markdown("Explore player stats. Use filters and leaderboards to explore top performers.")
+    st.markdown("Explore player stats. Use filters to explore. For detailed stats, select a single player.")
 
     # Load sample players summary data
     @st.cache_data
@@ -129,28 +162,6 @@ elif page == "Players":
         # To use full data, change to: "csv/TBONTB_players_summary.csv"
         return pd.read_csv("csv/samples/sample_TBONTB_players_summary.csv")
     players_df = load_players_summary()
-
-
-    # --- All-Time Leaderboard (not affected by filters) ---
-    st.subheader("All-Time Leaderboard")
-    leaderboard_type = st.selectbox("Leaderboard by:", ["Runs", "Wickets", "Batting Average"])
-    if leaderboard_type == "Runs":
-        top = players_df.sort_values("runs", ascending=False).head(5)
-        chart_col = "runs"
-        chart_title = "Top 5 by Runs"
-    elif leaderboard_type == "Wickets":
-        top = players_df.sort_values("wickets", ascending=False).head(5)
-        chart_col = "wickets"
-        chart_title = "Top 5 by Wickets"
-    else:
-        top = players_df[players_df["bat_avg"] > 0].sort_values("bat_avg", ascending=False).head(5)
-        chart_col = "bat_avg"
-        chart_title = "Top 5 by Batting Average"
-
-    import plotly.express as px
-    fig = px.bar(top, x="player_name", y=chart_col, title=chart_title, text=chart_col)
-    st.plotly_chart(fig, width='stretch')
-    #st.dataframe(top[["player_name", "matches", "runs", "wickets", "bat_avg"]], width='stretch')
 
     # --- Filters ---
     with st.expander("Filters for Players Stats", expanded=True):
@@ -163,7 +174,7 @@ elif page == "Players":
     filtered = players_df[players_df["matches"] >= matches_played].copy()
     if selected_player != "All":
         filtered = filtered[filtered["player_name"] == selected_player]
-    st.write(f"Players: {len(filtered)}")
+    st.write(f"Total Players Filtered: {len(filtered)}")
 
     # --- Player Table ---
     st.subheader("Player Summary Table")
@@ -217,7 +228,18 @@ elif page == "About":
     st.title("About This App")
     st.write("Hullo! This is a web app dashboard for interactive visualization of TBONTB cricket stats.")
     st.write("This app ties in with the blog [Double Double Stats and Trouble](https://mama-cailleach.github.io/double-double-stats-and-trouble/).")
-    st.write("Explore a bit of our team history in numbers and graphs.")
+    st.write("Messing around while I am learning and testing stuff for hopefully my future.")
+    st.write("Explore a bit of our team history in numbers and graphs in a more interactive way.")
     st.write("This is a first iteration, mostly for testing and tinkering. More features and polish to come...")
     st.write("Feedback always welcome! What do you want to see next?")
+    st.subheader("Send Feedback")
+    st.markdown("""
+    <form action="https://formsubmit.co/marcelo.terreiro@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <textarea name="feedback" rows="4" cols="40" placeholder="Type your feedback here..." required></textarea><br>
+        <button type="submit">Send</button>
+    </form>
+    """, unsafe_allow_html=True)
+    st.write("")
+    st.write("")
     st.write("Made by [mama](https://github.com/mama-cailleach) | marcelo.terreiro@gmail.com")
