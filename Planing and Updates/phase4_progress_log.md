@@ -24,14 +24,6 @@
 - ✅ Sidebar navigation and About page placeholder added
 - ✅ All pages ready to swap to full data by changing file paths
 
----
-
-**Next Steps:**
-- Continue MVP development: connect to full datasets, add match/player/venue detail pages, improve visualizations, and collect feedback
-
-_This log tracks progress against the consolidated plan in `phase4_consolidated_plan.md`._
-
-
 ### Deployment & Iteration Updates (2025-09-09)
 
 - ✅ Made several improvements and additions to `app.py` display and features (leaderboards, filtering, feedback form, navigation tweaks, and more)
